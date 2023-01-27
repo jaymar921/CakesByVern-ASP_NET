@@ -1,4 +1,15 @@
-﻿@{
+﻿@using System.Security.Claims
+@{
+    var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
+    string? role = null;
+    if (claimsIdentity != null)
+    {
+        if (claimsIdentity.Claims != null)
+            role = claimsIdentity.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
+    }
+    var roleOfUser = role != null ? role : "User";
+}
+@{
     ViewData["Title"] = "Home";
 }
 <section class="info_extra_1"></section>
@@ -38,10 +49,16 @@
 </section>
 <section class="info_extra"></section>
 <section class="announcement">
-    <h1>Posts</h1>
-    <div class="post">
-        <div class="photo">
-            <img src="~/images/cake2.jpg"/>
+    <h1 style="font-weight: 900; font-family: PrincessSofia;padding:30px;">Posts | @roleOfUser</h1>
+    <div class="post_container">
+        <div class="post">
+            <div class="photo">
+                <img src="~/images/cake2.jpg"/>
+            </div>
+            <div class="caption">
+                <p>Caption Caption Caption Caption Caption Caption Caption Caption Caption Caption</p>
+            </div>
         </div>
     </div>
+    <br /><br />
 </section>

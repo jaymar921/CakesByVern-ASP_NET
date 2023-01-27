@@ -1,0 +1,70 @@
+﻿@model UserModel
+@{
+    ViewData["Title"] = "Register";
+}
+<div class="full-bg">
+    <div class="full-bg-overlay"></div>
+    <div class="form-container">
+        <h1 style="font-family: PrincessSofia; padding:5px; padding-top: 30px;">Cakes by Vern</h1>
+        <h3 style="font-family: PrincessSofia;">Register</h3>
+        <form method="post" asp-route="Register">
+            <div>
+                <p style="text-align: left; padding-left: 30px; margin-top: 20px;">Information</p>
+            </div>
+            <div class="form-group">
+                <i class="fa-solid fa-person"></i><input asp-for="Fullname" placeholder="Fullname" required>
+            </div>
+            <div class="form-group">
+                <i class="fa-solid fa-envelope"></i><input asp-for="Email" pattern="[a-z0-9._%+-]+@@[a-z0-9.-]+\.[a-z]{2, 4}$" placeholder="Email" required>
+            </div>
+            <div>
+                <p style="text-align: left; padding-left: 30px; margin-top: 20px;">Date of birth</p>
+            </div>
+            <div class="form-group">
+                <i class="fa-solid fa-clock"></i><input asp-for="Birthdate" type="date" placeholder="Birthdate" required>
+            </div>
+
+            <div>
+                <p style="text-align: left; padding-left: 30px; margin-top: 20px;">User Credentials</p>
+            </div>
+            <div class="form-group">
+                <i class="fa-solid fa-user"></i><input asp-for="Username" pattern="[a-zA-Z0-9]{5,}" placeholder="Username" required>
+            </div>
+            <div class="form-group">
+                <i class="fa-solid fa-lock"></i><input asp-for="Password" class="password" type="password" id="password" placeholder="Password" required>
+                <i class="fa-solid fa-eye-slash" id="togglePassword" style="cursor: pointer;"></i>
+            </div>
+            <div>
+                <br />
+                <button>Register</button>
+                <br />
+            </div>
+            <div>
+                <p>Already have an account?</p><a asp-controller="Account" asp-action="Login">Login</a>
+            </div>
+            <br />
+            @{
+                if (TempData["Message"] != null)
+                {
+                    <div class="form-alert">
+                        <p>@TempData["Message"]</p>
+                    </div>
+                }
+            }
+        </form>
+    </div>
+</div>
+
+<script>
+    const togglePassword = document.querySelector("#togglePassword");
+    const password = document.querySelector("#password");
+
+    togglePassword.addEventListener("click", function () {
+        // toggle the type attribute
+        const type = password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+        // toggle the icon
+        this.classList.toggle("fa-eye");
+    });
+
+</script>

@@ -1,7 +1,22 @@
+using CakesByVern_Data.Database;
+using Microsoft.AspNetCore.Authentication.Cookies;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// responsible for database
+builder.Services.AddSingleton<SQLConnector>();
+builder.Services.AddScoped<IDataRepository, DataRepository>();
+
+// responsible for adding authentication
+builder.Services.AddAuthentication(
+    option =>
+    {
+        option.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    }
+).AddCookie();
 
 var app = builder.Build();
 
@@ -17,6 +32,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// responsible for adding authentication
+app.UseAuthentication();
+
 
 app.UseAuthorization();
 

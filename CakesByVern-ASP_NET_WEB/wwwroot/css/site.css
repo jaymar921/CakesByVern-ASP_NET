@@ -1,3 +1,15 @@
+@font-face {
+    font-family: CuteWriting;
+    src: url(../Font/CuteWriting.ttf);
+}
+@font-face {
+    font-family: PeachSundress;
+    src: url(../Font/peach-sundress.ttf);
+}
+@font-face {
+    font-family: PrincessSofia;
+    src: url(../Font/PrincessSofia-Regular.ttf);
+}
 html {
   font-size: 14px;
 }
@@ -11,7 +23,17 @@ html {
 body {
     margin-bottom: 60px;
     margin: 0;
+    border: 0;
     background-image: linear-gradient(to bottom,white, pink);
+    background-color: rgba(0,0,0,0.2);
+}
+
+.footer-content{
+    color: black;
+    text-align: center;
+    z-index: 10;
+    height: fit-content;
+    padding: 5px;
 }
 
 .navig {
@@ -20,18 +42,21 @@ body {
     top: 0;
     right: 0px;
     padding: 10px;
-    background-color: rgba(215, 119, 181, 0.2);
+    background-color: rgb(73, 46, 46);
     border-radius: 0px 0px 0px 20px;
-    box-shadow: 5px 5px 10px grey;
+    box-shadow: 0px 0px 20px black;
     z-index: 1;
+    transition: all 500ms ease-in;
 }
 
 .navig .item{
-    color: black;
+    position: relative;
+    color: white;
     text-decoration: none;
     cursor: pointer;
     font-size: 20px;
     padding: 0px 10px 0px 10px;
+    transition: all 500ms ease-in;
 }
 
 .info_extra,.info_extra_1 {
@@ -42,7 +67,8 @@ body {
 }
 
 .navig .item:hover {
-    color: white;
+    border-bottom: 1px solid pink;
+    color: pink;
 }
 
 .banner {
@@ -76,7 +102,8 @@ body {
 }
 
 .social:hover{
-    color: white;
+    color: purple;
+    font-weight: 500;
 }
 
 .social .icon {
@@ -101,27 +128,139 @@ body {
     padding-top: 10px;
 }
 
-.announcement{
+.announcement {
     position: relative;
     width: 100%;
     height: fit-content;
+    text-align: center;
+}
 
+.post_container {
+    position: relative;
+    max-width: calc(330px * 3);
+    width: calc(fit-content + 10px);
+    min-width: 320px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.post{
+    width: 320px;
+    height: 370px;
+    background-color: white;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+    box-shadow: 10px 10px 10px rgba(0,0,0,0.4);
+}
+
+.photo img{
+    width: 320px;
+    height: 320px;
+    padding: 10px;
+}
+
+.caption {
+    width: 320px;
+    padding: 0px 10px 0px 10px;
+}
+
+/* Login CSS */
+.full-bg {
+    position: relative;
+    height: 95vh;
+    width: 100%;
+    background-color: #ecb2ad;
+    color: white;
+    background-image: url(/images/background-login.png);
+    z-index:0;
+}
+.full-bg-overlay {
+    position: absolute;
+    height: 95vh;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: -1;
+}
+
+.form-container {
+    position: relative;
+    width: 300px;
+    height: fit-content;
+    background-color: rgba(0, 0, 0,0.8);
+    text-align: center;
+    border-radius: 20px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 0px 30px black;
+    z-index: 1;
+    border: 3px solid white;
+}
+
+.form-container form .form-group {
+    text-align: left;
+    margin: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    width: 235px;
+    padding: 2px;
+    border-bottom: 3px solid white;
+}
+
+.form-container form div input{
+    border: none;
+    padding-left: 10px;
+    width: 190px;
+    background-color: rgba(0,0,0,0);
+    color: white;
+}
+
+.form-container form div input:focus {
+    outline: none;
+    padding-left: 10px;
+    width: 190px;
+}
+
+.form-container form div button {
+    border: 2px solid lightpink;
+    padding: 5px 20px 5px 20px;
+    background-color: #ecb2ad;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.form-container form div p {
+    padding: 0;
+    margin: 0;
+}
+
+.form-alert{
+    height: 30px;
+    color: red;
+    font-weight: 600;
 }
 
 
 /* Mobile Responsive */
-
 @media (max-width: 768px) {
     html {
         font-size: 16px;
     }
 
     .navig {
-        position: absolute;
-        width: 80%;
+        position: fixed;
+        width: 300px;
         border-radius: 0px 0px 20px 20px;
         left: 50%;
         transform: translateX(-50%);
+    }
+
+    .navig .item {
+        margin: calc(5% - 15px);
     }
 
     .banner {
@@ -138,7 +277,7 @@ body {
         position: absolute;
         top: 150px;
         width: 100%;
-        height: 135px;
+        height: 140px;
         background-color: rgba(0, 0, 0, 0.1);
         border-radius: 0px 0px 0px 0px;
         box-shadow: none;
@@ -160,7 +299,7 @@ body {
     .info_extra {
         position: relative;
         width: 100%;
-        height: 135px;
+        height: 140px;
         background-color: #ecb2ad;
     }
 
