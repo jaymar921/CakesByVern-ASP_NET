@@ -1,0 +1,33 @@
+﻿@model PostModel
+
+@if (User.IsInRole("ADMIN"))
+{
+    <div class="post_container">
+        <div class="post_form">
+            <form asp-controller="Home" asp-action="UploadPost" enctype="multipart/form-data">
+                <h3>Share your ideas</h3>
+                <div class="form-group">
+                    <input asp-for="Title" type="text" placeholder="Short title" required>
+                </div>
+                <div class="form-group">
+                    <textarea asp-for="Description" placeholder="What's on your mind @User?.Identity?.Name? ..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <input style="display:none" name="imageFile" asp-for="imageFile" type="file" accept="image/*">
+                    <label for="imageFile"><i class="fa-solid fa-upload"></i> Upload Image</label>
+                </div>
+                <div>
+                    <button type="submit">Post</button>
+                </div>
+                @{
+                    if(TempData["Message"] != null)
+                    {
+                        <div class="form-alert">
+                            <p>@TempData["Message"]</p>
+                        </div>
+                    }
+                 }
+            </form>
+        </div>
+    </div>
+}

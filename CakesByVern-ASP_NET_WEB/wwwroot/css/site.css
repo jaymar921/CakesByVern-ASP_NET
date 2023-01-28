@@ -146,7 +146,7 @@ body {
     flex-wrap: wrap;
 }
 
-.post{
+.post, .post_form{
     width: 320px;
     height: 370px;
     background-color: white;
@@ -156,6 +156,60 @@ body {
     border-radius: 10px;
     box-shadow: 10px 10px 10px rgba(0,0,0,0.4);
 }
+
+.post_form {
+    height: fit-content;
+    font-size: 110%;
+}
+
+.post_form form .form-group{
+    width: 100%;
+    padding: 5px 10px 5px 10px;
+}
+
+.post_form form h3{
+    width: 100%;
+    padding: 15px 10px 5px 10px;
+    font-family: PrincessSofia;
+    font-weight: 900;
+}
+
+.post_form form .form-group input{
+    width: 50%;
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid black;
+}
+
+.post_form form .form-group input:hover{
+    outline: none;
+}
+
+.post_form form .form-group textarea{
+    width: 100%;
+    resize: none;
+    height: 100px;
+    padding: 10px;
+}
+
+.post_form form div button{
+    width: 50%;
+    margin: 20px;
+    border: none;
+    background-color: antiquewhite;
+    border-radius: 20px;
+    transition: all 200ms ease-in;
+    font-weight: 500;
+}
+
+.post_form form div button:hover{
+    background-color: peachpuff;
+}
+
+.post_form form div label:hover{
+    cursor: pointer;
+}
+
 
 .photo img{
     width: 320px;
