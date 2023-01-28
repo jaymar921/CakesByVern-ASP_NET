@@ -4,6 +4,7 @@ namespace CakesByVern_ASP_NET_WEB.Models
 {
     public class PostModel
     {
+        public int Id { get; set; } = -1;
         [Required]
         public string Title { get; set; } = string.Empty;
         [Required]
@@ -14,6 +15,8 @@ namespace CakesByVern_ASP_NET_WEB.Models
 
         [DataType(DataType.Upload)]
         [Display(Name = "Upload image")]
-        public IFormFile imageFile { get; set; }
+        public IFormFile? imageFile { get; set; }
+
+        public string imageFileSrc { get; set; } = string.Empty;
     }
 }

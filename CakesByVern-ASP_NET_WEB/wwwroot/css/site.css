@@ -148,7 +148,7 @@ body {
 
 .post, .post_form{
     width: 320px;
-    height: 370px;
+    height: fit-content;
     background-color: white;
     margin: auto;
     margin-top: 5px;
@@ -188,7 +188,7 @@ body {
 .post_form form .form-group textarea{
     width: 100%;
     resize: none;
-    height: 100px;
+    height: 70px;
     padding: 10px;
 }
 
@@ -222,6 +222,34 @@ body {
     padding: 0px 10px 0px 10px;
 }
 
+.caption p a{
+    font-weight: 500;
+}
+
+.posted_by, .post_settings {
+    font-weight: 500;
+    color: grey;
+    margin: 0;
+}
+
+.post_settings{
+    margin-bottom: 5px;
+    text-align: left;
+    font-size: 120%;
+}
+
+.post_settings a{
+    padding: 0px 10px 0px 10px;
+    cursor: pointer;
+}
+
+.post_settings a i{
+    color: grey;
+}
+.post_settings a i:hover{
+    color: blue;
+}
+
 /* Login CSS */
 .full-bg {
     position: relative;
@@ -230,7 +258,7 @@ body {
     background-color: #ecb2ad;
     color: white;
     background-image: url(/images/background-login.png);
-    z-index:0;
+    z-index: 0;
 }
 .full-bg-overlay {
     position: absolute;

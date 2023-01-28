@@ -1,7 +1,9 @@
 ﻿using CakesByVern_ASP_NET_WEB.Models;
+using CakesByVern_ASP_NET_WEB.Utilities;
+using CakesByVern_Data.Database;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 
 namespace CakesByVern_ASP_NET_WEB.Controllers
@@ -11,16 +13,19 @@ namespace CakesByVern_ASP_NET_WEB.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly IDataRepository _dataRepository;
 
-        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment webHostEnvironment)
+        public HomeController(ILogger<HomeController> logger, IWebHostEnvironment webHostEnvironment, IDataRepository dataRepository)
         {
             _logger = logger;
             _hostEnvironment = webHostEnvironment;
+            _dataRepository = dataRepository;
         }
 
         public IActionResult Index()
         {
-            return View();
+            HomePageModel model = new HomePageModel(_dataRepository);
+            return View(model);
         }
 
         public IActionResult Privacy()
@@ -45,22 +50,32 @@ namespace CakesByVern_ASP_NET_WEB.Controllers
                 return View();
             }
 
+            // save the post into the database
+            int id = _dataRepository.AddPost(new CakesByVern_Data.Entity.Post { Title = postModel.Title, Description = postModel.Description, Author = postModel.Author });
+
             try
             {
                 // save the file
                 string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = postModel.Title;
-                string extension = Path.GetExtension(postModel.imageFile.FileName);
+                string fileName = id + "_"+ postModel.Title;
                 
-                string path = Path.Combine(wwwRootPath+"/SERVER_FILES/POSTS/", fileName+extension);
+                string path = Path.Combine(wwwRootPath+"/SERVER_FILES/POSTS/", fileName + ".png");
                 using (var fileStream = new FileStream(path, FileMode.Create))
                 {
-                    await postModel.imageFile.CopyToAsync(fileStream);
+                    if(postModel.imageFile != null)
+                        await postModel.imageFile.CopyToAsync(fileStream);
                 }
             }catch(Exception ex) 
             {
                 _logger.LogError($"Error --> {ex.Message}");
             }
+            return Redirect("/");
+        }
+
+        [Authorize]
+        public IActionResult DeletePost(int id)
+        {
+            _dataRepository.DeletePost(id);
             return Redirect("/");
         }
     }

@@ -1,0 +1,21 @@
+﻿@model PostModel
+
+<div class="post">
+    <div class="photo">
+        <img src="@Model.imageFileSrc"/>
+    </div>
+    <div class="caption">
+        <p><a>@Model.Title</a> - @Model.Description</p>
+        <p class="posted_by">Posted by: @Model.Author</p>
+        <p class="post_settings">
+            
+            <a><i class="fa-solid fa-thumbs-up"></i> 0</a> 
+            @{
+                if(User.IsInRole("ADMIN"))
+                {
+                    <a href="/Home/DeletePost?id=@Model.Id"><i class="fa-solid fa-trash"></i></a>
+                }
+            }
+        </p>
+    </div>
+</div>

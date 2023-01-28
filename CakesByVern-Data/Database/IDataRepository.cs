@@ -14,7 +14,7 @@ namespace CakesByVern_Data.Database
         bool DeleteUser(int id);
 
         // Post associate
-        void AddPost(Post post);
+        int AddPost(Post post);
         bool UpdatePost(Post post);
         bool DeletePost(int id);
         IEnumerable<Post> GetAllPosts();

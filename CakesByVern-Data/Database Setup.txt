@@ -16,7 +16,7 @@ create table user(
 ) engine = innodb;
 
 create table post(
-    id int primary key,
+    id int auto_increment primary key,
     title varchar(50) not null,
     description varchar(50) not null,
     author varchar(100) not null,
@@ -25,14 +25,14 @@ create table post(
 ) engine = innodb;
 
 create table product(
-    id int primary key,
+    id int auto_increment primary key,
     name varchar(50) not null,
     description varchar(5000) not null,
     price decimal(10,2) not null
 ) engine = innodb;
 
 create table orders(
-    id int primary key,
+    id int auto_increment primary key,
     user_id int not null,
     foreign key (user_id) references user(id) on delete restrict on update cascade,
     product_id int not null,

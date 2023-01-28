@@ -19,9 +19,27 @@ namespace CakesByVern_Data.Database
             throw new NotImplementedException();
         }
 
-        public void AddPost(Post post)
+        public int AddPost(Post post)
         {
-            throw new NotImplementedException();
+            string sqlFormattedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+            string query = $"INSERT INTO post (`title`,`description`,`author`,`created`,`updated`) values ('{post.Title}', '{post.Description}', '{post.Author}', '{sqlFormattedDate}', '{sqlFormattedDate}')";
+
+            try
+            {
+                _connector.ExecuteQuery(query);
+                using (var reader = _connector.ExecuteQueryReturn($"SELECT id FROM post WHERE created = '{sqlFormattedDate}'"))
+                {
+                    if (reader.Read())
+                    {
+                        return (int)reader[0];
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine($"Error Adding Post --> Err msg: {e.Message}");
+            }
+            return -1;
         }
 
         public void AddProduct(Product product)
@@ -36,7 +54,17 @@ namespace CakesByVern_Data.Database
 
         public bool DeletePost(int id)
         {
-            throw new NotImplementedException();
+            string query = $"DELETE FROM post WHERE id = {id}";
+
+            try
+            {
+                _connector.ExecuteQuery(query);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool DeleteProduct(int id)
@@ -56,7 +84,27 @@ namespace CakesByVern_Data.Database
 
         public IEnumerable<Post> GetAllPosts()
         {
-            throw new NotImplementedException();
+            string query = $"SELECT * FROM post";
+            List<Post> posts = new List<Post>();
+
+            using (var reader = _connector.ExecuteQueryReturn(query))
+            {
+                
+                while (reader.Read())
+                {
+                    posts.Add(new Post
+                    {
+                        Id = (int)reader[0],
+                        Title = (string)reader[1],
+                        Description= (string)reader[2],
+                        Author= (string)reader[3],
+                        Created = DateTime.Parse(Convert.ToString(reader[4]) ?? DateTime.Now.ToString()),
+                        Updated = DateTime.Parse(Convert.ToString(reader[5]) ?? DateTime.Now.ToString())
+                    });
+                }
+                
+            }
+            return posts;
         }
 
         public IEnumerable<Product> GetAllProducts()
