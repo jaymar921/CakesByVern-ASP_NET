@@ -13,7 +13,7 @@
                 <div class="post_form">
                     <form asp-controller="Home" asp-action="UploadPost" enctype="multipart/form-data">
                         <h3>Share your ideas</h3>
-                        <input asp-for="Author" value="name" hidden>
+                        <input asp-for="Author" value="@name" hidden>
                         <div class="form-group">
                             <input asp-for="Title" type="text" maxlength="20" placeholder="Short title" required>
                         </div>

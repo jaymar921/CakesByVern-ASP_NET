@@ -1,0 +1,30 @@
+﻿@model ProductModel
+
+@if(User.IsInRole("ADMIN")){
+    <div class="flex-wrapper width-80vw center-horizontal">
+        <div class="general-form font-color-white background-darken-r">
+            <form asp-controller="Order" asp-action="AddProduct" enctype="multipart/form-data">
+                <div>
+                    <h3 class="center PrincessSofia">Add a new product</h3>
+                </div>
+                <div>
+                    <label>Product name: </label><input asp-for="Name" class="font-color-white" placeholder="Product name" required />
+                </div>
+                <div>
+                    <textarea asp-for="Description" class="font-color-white" placeholder="Product Description" maxlength="100" required></textarea>
+                </div>
+                <div>
+                    <label>Product price: </label><input asp-for="Price" class="font-color-white" type="number" placeholder="Price" required />
+                </div>
+                <div>
+                    <label>Upload Image: </label><input asp-for="imageFile" class="font-color-white" type="file" accept="image/*" required />
+                </div>
+                <div>
+                    <button type="submit" class="center-horizontal">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br />
+    <br />
+}

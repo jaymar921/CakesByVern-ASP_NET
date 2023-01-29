@@ -25,5 +25,24 @@ namespace CakesByVern_ASP_NET_WEB.Utilities
             }
             return postsList;
         }
+
+        public static IEnumerable<ProductModel> GetAllProductModel(this IDataRepository dataRepository)
+        {
+            var products = dataRepository.GetAllProducts();
+            List<ProductModel> productsList = new List<ProductModel>();
+            
+            foreach (var product in products)
+            {
+                productsList.Add(new ProductModel
+                {
+                    Id = product.Id,
+                    Name= product.Name,
+                    Description = product.Description,
+                    Price= product.Price,
+                    imageFileSrc = "/SERVER_FILES/PRODUCTS/" + product.Id + "_" + product.Name + ".png"
+                });
+            }
+            return productsList;
+        }
     }
 }

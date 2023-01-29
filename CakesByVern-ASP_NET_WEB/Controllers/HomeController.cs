@@ -73,6 +73,7 @@ namespace CakesByVern_ASP_NET_WEB.Controllers
         }
 
         [Authorize]
+        [Route("/DeletePost/{id}")]
         public IActionResult DeletePost(int id)
         {
             _dataRepository.DeletePost(id);

@@ -1,0 +1,23 @@
+﻿@model ProductModel
+
+<div class="margin-auto">
+    <div class="product">
+        <div class="product-photo"><img src="@Model.imageFileSrc"/></div>
+        <div class="product-info">
+            <h3>@Model.Name</h3>
+            <p>@Model.Description</p>
+        </div>
+        <div class="product-options">
+            <div><p><i class="fa-solid fa-peso-sign"> @Model.Price</i></p></div>
+            <div><button>Order now</button></div>
+            @{
+                if (User.IsInRole("ADMIN"))
+                {
+                    <div>
+                        <a asp-asp-controller="Order" asp-action="DeleteProduct" asp-route-id="@Model.Id"><i class="fa-solid fa-trash"></i></a>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

@@ -9,11 +9,11 @@
         <p class="posted_by">Posted by: @Model.Author</p>
         <p class="post_settings">
             
-            <a><i class="fa-solid fa-thumbs-up"></i> 0</a> 
+            <!-- <a><i class="fa-solid fa-thumbs-up"></i> 0</a>  -->
             @{
                 if(User.IsInRole("ADMIN"))
                 {
-                    <a href="/Home/DeletePost?id=@Model.Id"><i class="fa-solid fa-trash"></i></a>
+                    <a asp-asp-controller="Home" asp-action="DeletePost" asp-route-id="@Model.Id"><i class="fa-solid fa-trash"></i></a>
                 }
             }
         </p>

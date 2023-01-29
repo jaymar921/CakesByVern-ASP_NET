@@ -42,9 +42,25 @@ namespace CakesByVern_Data.Database
             return -1;
         }
 
-        public void AddProduct(Product product)
+        public int AddProduct(Product product)
         {
-            throw new NotImplementedException();
+            string query = $"INSERT INTO `product` (`name`,`description`,`price`) values ('{product.Name}', '{product.Description}', {product.Price})";
+            try
+            {
+                _connector.ExecuteQuery(query);
+                using (var reader = _connector.ExecuteQueryReturn($"SELECT id FROM `product` WHERE name='{product.Name}'"))
+                {
+                    if (reader.Read())
+                    {
+                        return (int)reader[0];
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error Adding Product --> Err msg: {e.Message} | {product.Name}");
+            }
+            return -1;
         }
 
         public bool DeleteOrder(int id)
@@ -69,7 +85,17 @@ namespace CakesByVern_Data.Database
 
         public bool DeleteProduct(int id)
         {
-            throw new NotImplementedException();
+            string query = $"DELETE FROM product WHERE id = {id}";
+
+            try
+            {
+                _connector.ExecuteQuery(query);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool DeleteUser(int id)
@@ -109,7 +135,25 @@ namespace CakesByVern_Data.Database
 
         public IEnumerable<Product> GetAllProducts()
         {
-            throw new NotImplementedException();
+            string query = $"SELECT * FROM product";
+            List<Product> posts = new List<Product>();
+
+            using (var reader = _connector.ExecuteQueryReturn(query))
+            {
+
+                while (reader.Read())
+                {
+                    posts.Add(new Product
+                    {
+                        Id = (int)reader[0],
+                        Name = (string)reader[1],
+                        Description = (string)reader[2],
+                        Price = Double.Parse(reader[3].ToString() ?? "0")
+                    });
+                }
+
+            }
+            return posts;
         }
 
         public IEnumerable<User> GetAllUsers()

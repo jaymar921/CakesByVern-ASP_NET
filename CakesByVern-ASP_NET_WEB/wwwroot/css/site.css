@@ -122,6 +122,7 @@ body {
     padding: 0;
     margin: 0;
     font-size: 14px;
+    text-align: left;
 }
 
 .social .title_2 p {
@@ -251,25 +252,9 @@ body {
 }
 
 /* Login CSS */
-.full-bg {
-    position: relative;
-    height: 95vh;
-    width: 100%;
-    background-color: #ecb2ad;
-    color: white;
-    background-image: url(/images/background-login.png);
-    z-index: 0;
-}
-.full-bg-overlay {
-    position: absolute;
-    height: 95vh;
-    width: 100%;
-    background-color: rgba(0,0,0,0.5);
-    z-index: -1;
-}
 
 .form-container {
-    position: relative;
+    position: absolute;
     width: 300px;
     height: fit-content;
     background-color: rgba(0, 0, 0,0.8);
@@ -325,6 +310,199 @@ body {
     color: red;
     font-weight: 600;
 }
+
+/* Order page */
+
+
+
+.horizontal-wrapper{
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    padding: 10px;
+}
+
+.center{
+    text-align: center;
+    width: 100%;
+}
+
+.PrincessSofia {
+    font-family: PrincessSofia;
+}
+
+.font-color-white {
+    color: white;
+}
+
+.font-color-aqua {
+    color: dodgerblue;
+}
+
+.product{
+    position: relative;
+    margin: 20px;
+    width: 250px;
+    min-height: 350px;
+    max-height: 430px;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0px 0px 20px black;
+}
+
+.product-photo img {
+    width: 250px;
+    height: 250px;
+    object-fit: cover;
+}
+
+.product-info h3,p{
+    text-align: center;
+    padding: 5px;
+}
+
+.product-options {
+    display: flex;
+}
+
+.product-options div{
+    padding: 0;
+    margin: auto;
+}
+
+.product-options div button{
+    position: relative;
+    top: -6px;
+    color: darkred;
+    background-color: coral;
+    border: none;
+    border-radius: 5px;
+}
+
+.product-options div button:hover{
+    color: darkred;
+    background-color: rgb(229, 175, 89);
+}
+
+
+/* BACKGROUNDS */
+.background-1 {
+    position: fixed;
+    background-image: url(/images/background-order.jpg);
+    background-position: center;
+    height: 100%;
+    width: 100%;
+    z-index: -2;
+}
+
+.background-2 {
+    position: fixed;
+    background-image: url(/images/background-login.png);
+    background-position: center;
+    height: 100%;
+    width: 100%;
+    z-index: -2;
+}
+
+.background-darken {
+    position: fixed;
+    background-color: rgba(0,0,0,0.5);
+    background-position: center;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+}
+
+.background-darken-r {
+    background-color: rgba(0,0,0,0.7);
+    background-position: center;
+    box-shadow: 0px 0px 20px black;
+    border-radius: 20px;
+    padding: 20px;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+}
+
+/* UTILITY */
+
+.height-95vh{
+    height: 95vh;
+}
+
+.width-80vw {
+    width: 80vw;
+    min-width: 350px;
+    max-width: 870px;
+}
+
+.center-horizontal{
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.flex-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.margin-auto {
+    position: relative;
+    margin: auto;
+}
+
+.font-400p{
+    font-size: 400%;
+}
+
+.general-form{
+    width: 80vw;
+}
+
+.general-form form{
+    width: 350px;
+    margin: auto;
+}
+
+.general-form form div{
+    display: relative;
+    padding: 5px;
+    width: 350px;
+}
+
+.general-form form div textarea{
+    width: 340px;
+    resize: none;
+    padding: 10px;
+    background-color: rgba(0,0,0,0);
+    border: 2px dotted white;
+    outline: none;
+    border-radius: 10px;
+}
+
+.general-form form div input{
+    width: 65%;
+    border: none;
+    border-bottom: 2px solid white;
+    background-color: rgba(0,0,0,0);
+}
+.general-form form div label{
+    width: 35%;
+}
+
+.general-form form div button{
+    position: relative;
+    width: 30%;
+    margin: auto;
+    font-size: 15px;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    font-weight: 600;
+}
+
 
 
 /* Mobile Responsive */
@@ -399,5 +577,11 @@ body {
     .social .title_2 p {
         padding-top: 6px;
     }
+    .general-form {
+        width: 100vw;
+    }
 
+    .background-darken-r {
+        padding:0px;
+    }
 }

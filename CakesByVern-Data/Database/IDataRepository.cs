@@ -21,7 +21,7 @@ namespace CakesByVern_Data.Database
         Post GetPost(int id);
 
         // Product associate
-        void AddProduct(Product product);
+        int AddProduct(Product product);
         bool UpdateProduct(Product product);
         bool DeleteProduct(int id);
         IEnumerable<Product> GetAllProducts();

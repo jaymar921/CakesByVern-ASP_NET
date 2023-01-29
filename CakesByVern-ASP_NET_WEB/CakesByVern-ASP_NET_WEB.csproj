@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\Font\" />
+    <Folder Include="wwwroot\SERVER_FILES\PRODUCTS\" />
   </ItemGroup>
 
   <ItemGroup>

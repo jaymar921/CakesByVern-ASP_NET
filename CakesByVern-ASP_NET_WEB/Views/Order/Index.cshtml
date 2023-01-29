@@ -1,0 +1,27 @@
+﻿@model OrderViewModel
+@{
+    ViewData["Title"] = "Order";
+}
+
+<div class="background-1"></div>
+<div class="background-darken"></div>
+
+<section class="horizontal-wrapper font-color-white">
+    <br /><br />
+    <h1 class="center PrincessSofia font-400p">Cakes by Vern</h1>
+    <br /><br />
+
+    <partial name="_UploadProduct" model="new ProductModel()" />
+
+
+    <div class="flex-wrapper width-80vw center-horizontal">
+        
+        @{
+            foreach(var product in Model.Products())
+            {
+                <partial name="_ProductDisplay" model="product" />
+            }
+        }
+        
+    </div>
+</section>
