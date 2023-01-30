@@ -43,6 +43,7 @@ namespace CakesByVern_Data.Database
         // must be disposed
         public MySqlDataReader ExecuteQueryReturn(string query)
         {
+            if (!IsConnected()) GetConnection();
             var conn = GetConnection();
             conn.Open();
             return new MySqlCommand(query, conn).ExecuteReader();
@@ -62,6 +63,7 @@ namespace CakesByVern_Data.Database
             var conn = GetConnection();
             conn.Open();
             new MySqlCommand(query, conn).ExecuteNonQuery();
+            conn.Close();
         }
     }
 }

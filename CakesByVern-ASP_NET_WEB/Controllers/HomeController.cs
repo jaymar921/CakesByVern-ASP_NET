@@ -1,6 +1,8 @@
 ﻿using CakesByVern_ASP_NET_WEB.Models;
 using CakesByVern_ASP_NET_WEB.Utilities;
 using CakesByVern_Data.Database;
+using CakesByVern_Data.Entity;
+using CakesByVern_Data.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -57,7 +59,7 @@ namespace CakesByVern_ASP_NET_WEB.Controllers
             {
                 // save the file
                 string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = id + "_"+ postModel.Title;
+                string fileName = (id + "_" + postModel.Title).MD5Hash();
                 
                 string path = Path.Combine(wwwRootPath+"/SERVER_FILES/POSTS/", fileName + ".png");
                 using (var fileStream = new FileStream(path, FileMode.Create))

@@ -1,6 +1,8 @@
 ﻿@model ProductModel
 
 @if(User.IsInRole("ADMIN")){
+    <br />
+    <br />
     <div class="flex-wrapper width-80vw center-horizontal">
         <div class="general-form font-color-white background-darken-r">
             <form asp-controller="Order" asp-action="AddProduct" enctype="multipart/form-data">
@@ -14,7 +16,7 @@
                     <textarea asp-for="Description" class="font-color-white" placeholder="Product Description" maxlength="100" required></textarea>
                 </div>
                 <div>
-                    <label>Product price: </label><input asp-for="Price" class="font-color-white" type="number" placeholder="Price" required />
+                    <label>Product price: </label><input asp-for="Price" class="font-color-white" type="number" placeholder="Price" value="" required />
                 </div>
                 <div>
                     <label>Upload Image: </label><input asp-for="imageFile" class="font-color-white" type="file" accept="image/*" required />

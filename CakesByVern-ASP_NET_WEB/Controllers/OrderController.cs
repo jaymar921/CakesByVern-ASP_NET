@@ -1,5 +1,8 @@
 ﻿using CakesByVern_ASP_NET_WEB.Models;
+using CakesByVern_ASP_NET_WEB.Models.Auth;
+using CakesByVern_ASP_NET_WEB.Utilities;
 using CakesByVern_Data.Database;
+using CakesByVern_Data.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,7 +41,7 @@ namespace CakesByVern_ASP_NET_WEB.Controllers
 
                 // grab the root path, we have to save the files there
                 string wwwRootPath = _hostEnvironment.WebRootPath;
-                string filename = id + "_" + product.Name + ".png";
+                string filename = (id + "_" + product.Name).MD5Hash() + ".png";
 
                 string path = Path.Combine(wwwRootPath + "/SERVER_FILES/PRODUCTS/", filename);
                 
@@ -61,5 +64,7 @@ namespace CakesByVern_ASP_NET_WEB.Controllers
             _repository.DeleteProduct(id);
             return Redirect("/Order");
         }
+
+        
     }
 }

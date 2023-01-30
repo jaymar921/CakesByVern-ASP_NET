@@ -10,7 +10,6 @@ builder.Logging.AddConsole();
 builder.Services.AddControllersWithViews();
 
 // responsible for database
-builder.Services.AddSingleton<SQLConnector>();
 builder.Services.AddScoped<IDataRepository, DataRepository>();
 
 // responsible for adding authentication

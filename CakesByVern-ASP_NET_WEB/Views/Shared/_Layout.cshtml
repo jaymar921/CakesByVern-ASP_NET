@@ -13,17 +13,27 @@
 <body>
     <header>
         <div class="navig">
-            <a class="item" asp-controller="Home" asp-action="Index"><i class="fa fa-home" aria-hidden="true"></i></a>
-            <a class="item" asp-controller="Order" asp-action="Index">Order</a>
-            <a class="item" asp-controller="About" asp-action="Index">About</a>
+            <div>
+                <a class="item" asp-controller="Home" asp-action="Index"><i class="fa fa-home" aria-hidden="true"></i></a>
+                </div>
+            <div>
+                <a class="item" asp-controller="Order" asp-action="Index">Order</a>
+            </div>
+            <div>
+                <a class="item" asp-controller="About" asp-action="Index">About</a>
+            </div>
             @{
                 // grab the cookie yum yum :D
                 if(User.Identity != null)
                 if (User.Identity.IsAuthenticated)
                 {
-                    <a class="item" asp-controller="Account" asp-action="Logout">Logout</a>
+                    <div>
+                        <a class="item" asp-controller="Account" asp-action="Logout">Logout</a>
+                    </div>
                 }else{
-                    <a class="item" asp-controller="Account" asp-action="Login">Login</a>
+                    <div>
+                        <a class="item" asp-controller="Account" asp-action="Login">Login</a>
+                    </div>
                 }
             }
             

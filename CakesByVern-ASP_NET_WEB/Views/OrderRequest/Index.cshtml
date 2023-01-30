@@ -1,0 +1,73 @@
+﻿@model OrderRequestModel
+@{
+    PlaceOrderModel placeOrder = new PlaceOrderModel()
+    {
+        ProductId = Model.Product.Id,
+        FullName = Model.User.Fullname,
+        Email = Model.User.Email
+    };
+}
+@{
+    ViewData["Title"] = "Order";
+}
+
+<div class="background-1"></div>
+<div class="background-darken"></div>
+
+<section class="horizontal-wrapper font-color-white">
+    <br /><br /><br />
+    <h1 class="center PrincessSofia font-400p">Cakes by Vern</h1>
+    <h3 class="center PrincessSofia">Order now</h3>
+    
+    
+    <div class="flex-wrapper width-80vw center-horizontal">
+        <div class="margin-auto">
+            <div class="product">
+                <div class="product-photo"><img src="@Model.Product.imageFileSrc" /></div>
+                <div class="product-info">
+                    <h3>@Model.Product.Name</h3>
+                    <p>@Model.Product.Description</p>
+                </div>
+                <div class="product-options">
+                    <div><p><i class="fa-solid fa-peso-sign"> @Model.Product.Price</i>&nbsp;</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="flex-wrapper width-80vw center-horizontal">
+        <div class="general-form font-color-white background-darken-r">
+            <form method="post" asp-controller="OrderRequest" asp-action="OrderPlaced">
+                <div>
+                    <h3 class="center PrincessSofia">Provide your information</h3>
+                    <input asp-for="@placeOrder.ProductId" class="font-color-white" hidden />
+                </div>
+                <div>
+                    <label>Full Name: <a style="color:red">*</a></label><input asp-for="@placeOrder.FullName" class="font-color-white" placeholder="Customer name" required />
+                </div>
+                <div>
+                    <label>Contact #: <a style="color:red">*</a></label><input asp-for="@placeOrder.ContactNumber" patten="^((09)|(\+639))[0-9]{9,}$" class="font-color-white" placeholder="Contact Number" value="" required />
+                </div>
+                <div>
+                    <label>Email Address: </label><input asp-for="@placeOrder.Email" class="font-color-white" placeholder="Email Address" />
+                </div>
+                <div>
+                    <textarea asp-for="@placeOrder.DeliveryAddress" class="font-color-white" placeholder="Delivery Address (Required)" maxlength="100" required></textarea>
+                </div>
+                <div style="margin: 0; padding: 0;">
+                    <p style="margin: 0;">Additional Information</p>
+                </div>
+                <div>
+                    <textarea asp-for="@placeOrder.AdditionalInformation" class="font-color-white" placeholder="Additional Information (Decors/Color/Size/etc.)" maxlength="200"></textarea>
+                </div>
+                <div>
+                    <button type="submit" class="center-horizontal">Place Order</button>
+                </div>
+            </form>
+            <br />
+        </div>
+        <br /><br />
+    </div>
+    
+</section>

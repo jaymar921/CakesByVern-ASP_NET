@@ -1,5 +1,6 @@
 ﻿using CakesByVern_ASP_NET_WEB.Models;
 using CakesByVern_Data.Database;
+using CakesByVern_Data.Extensions;
 
 namespace CakesByVern_ASP_NET_WEB.Utilities
 {
@@ -20,7 +21,7 @@ namespace CakesByVern_ASP_NET_WEB.Utilities
                     Description = post.Description,
                     Created = post.Created,
                     Updated = post.Updated,
-                    imageFileSrc = "/SERVER_FILES/POSTS/" + post.Id + "_" + post.Title +".png"
+                    imageFileSrc = "/SERVER_FILES/POSTS/" + (post.Id + "_" + post.Title).MD5Hash() +".png"
                 });
             }
             return postsList;
@@ -39,10 +40,22 @@ namespace CakesByVern_ASP_NET_WEB.Utilities
                     Name= product.Name,
                     Description = product.Description,
                     Price= product.Price,
-                    imageFileSrc = "/SERVER_FILES/PRODUCTS/" + product.Id + "_" + product.Name + ".png"
+                    imageFileSrc = "/SERVER_FILES/PRODUCTS/" + (product.Id + "_" + product.Name).MD5Hash() + ".png"
                 });
             }
             return productsList;
+        }
+
+        public static int GetProductIdHashed(this IDataRepository dataRepository, string hashedId)
+        {
+            int id = 0;
+            while(true)
+            {
+                if (id == 999999)
+                    return -1;
+                if (hashedId.Equals(dataRepository.GetProduct(id++).Id.ToString().MD5Hash()))
+                    return id-1;
+            }
         }
     }
 }

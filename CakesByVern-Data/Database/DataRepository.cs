@@ -1,6 +1,8 @@
 ﻿using CakesByVern_Data.Entity;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Globalization;
+using System.Reflection.Metadata.Ecma335;
 
 namespace CakesByVern_Data.Database
 {
@@ -8,9 +10,9 @@ namespace CakesByVern_Data.Database
     {
         private readonly SQLConnector _connector;
 
-        public DataRepository(SQLConnector connector)
+        public DataRepository(IConfiguration configuration)
         {
-            _connector = connector;
+            _connector = new SQLConnector(configuration);
         }
 
 
@@ -31,7 +33,9 @@ namespace CakesByVern_Data.Database
                 {
                     if (reader.Read())
                     {
-                        return (int)reader[0];
+                        int value = (int)reader[0];
+                        reader.Close();
+                        return value;
                     }
                 }
             }
@@ -52,7 +56,9 @@ namespace CakesByVern_Data.Database
                 {
                     if (reader.Read())
                     {
-                        return (int)reader[0];
+                        int value = (int)reader[0];
+                        reader.Close();
+                        return value;
                     }
                 }
             }
@@ -110,7 +116,7 @@ namespace CakesByVern_Data.Database
 
         public IEnumerable<Post> GetAllPosts()
         {
-            string query = $"SELECT * FROM post";
+            string query = $"SELECT * FROM post WHERE id >= (SELECT min(id) from post)-10 ORDER BY id DESC limit 10;";
             List<Post> posts = new List<Post>();
 
             using (var reader = _connector.ExecuteQueryReturn(query))
@@ -173,7 +179,22 @@ namespace CakesByVern_Data.Database
 
         public Product GetProduct(int id)
         {
-            throw new NotImplementedException();
+            string query = $"SELECT * FROM product where id={id}";
+            using (var reader = _connector.ExecuteQueryReturn(query))
+            {
+                if (reader.Read())
+                {
+                    var product = new Product
+                    {
+                        Id = (int)reader[0],
+                        Name = (string)reader[1],
+                        Description = (string)reader[2],
+                        Price = Double.Parse(reader[3].ToString() ?? "0")
+                    };
+                    reader.Close(); return product;
+                }
+            }
+            return new Product { Id = -1 };
         }
 
         public User? GetUser(string username, string password)
@@ -186,7 +207,9 @@ namespace CakesByVern_Data.Database
                 {
                     string? date = Convert.ToString(reader[2]);
                     var dt = DateTime.Parse(date != null ? date : "");
-                    return new User((int)reader[0], (string)reader[1], DateOnly.FromDateTime(dt), (string)reader[3], (string)reader[4], new Security.Credential((string)reader[5], (string)reader[6]));
+                    User user = new User((int)reader[0], (string)reader[1], DateOnly.FromDateTime(dt), (string)reader[3], (string)reader[4], new Security.Credential((string)reader[5], (string)reader[6]));
+                    reader.Close();
+                    return user;
                 }
             }
             return null;
@@ -202,7 +225,9 @@ namespace CakesByVern_Data.Database
                 {
                     string? date = Convert.ToString(reader[2]);
                     var dt = DateTime.Parse(date != null ? date : "");
-                    return new User((int)reader[0], (string)reader[1], DateOnly.FromDateTime(dt), (string)reader[3], (string)reader[4], new Security.Credential((string)reader[5], (string)reader[6]));
+                    User user = new User((int)reader[0], (string)reader[1], DateOnly.FromDateTime(dt), (string)reader[3], (string)reader[4], new Security.Credential((string)reader[5], (string)reader[6]));
+                    reader.Close();
+                    return user;
                 }
             }
             return null;

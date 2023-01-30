@@ -1,4 +1,7 @@
 ﻿@model ProductModel
+@{
+    string user = User?.Identity?.Name ?? "-".MD5Hash();
+}
 
 <div class="margin-auto">
     <div class="product">
@@ -9,8 +12,9 @@
         </div>
         <div class="product-options">
             <div><p><i class="fa-solid fa-peso-sign"> @Model.Price</i></p></div>
-            <div><button>Order now</button></div>
+            <div><button onclick="location.href='/OrderRequest?id=@Model.Id.ToString().MD5Hash()&user=@user'">Order now</button></div>
             @{
+                if(User != null)
                 if (User.IsInRole("ADMIN"))
                 {
                     <div>
