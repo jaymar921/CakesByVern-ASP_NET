@@ -404,6 +404,60 @@ body {
     color: yellow;
 }
 
+/* Place Order */
+.receipt-container{
+    position: relative;
+    width: 100%;
+    height: fit-content;
+    text-align: center;
+    border-radius: 20px;
+    box-shadow: 0px 0px 20px black;
+    font-size: 15px;
+    background-color: rgba(0,0,0,0.8);
+    color: white;
+}
+
+.receipt-container div{
+    position: relative;
+    text-align: center;
+    display: flex;
+    width: 100%;
+    min-height: 50px;
+}
+
+.receipt-container div:nth-child(odd) > div{
+    background-color: rgba(0,0,0,0.05);
+}
+.receipt-container div div p{
+   padding: 0px 10px 0px 10px;
+}
+
+
+.receipt-container div div:nth-child(even){
+    text-align: left;
+    margin: 0;
+}
+
+.center-content > p,label, select{
+    position: relative;
+    margin: auto;
+    padding: 5px;
+}
+
+.center-content > select{
+    background-color: aquamarine;
+    border: 0px;
+    border-radius: 10px;
+}
+
+.receipt-container div button{
+    margin: auto;
+}
+
+.bold-text{
+    font-weight: 900;
+}
+
 
 /* BACKGROUNDS */
 .background-1 {
@@ -472,7 +526,11 @@ body {
     margin: auto;
 }
 
-.font-400p{
+.content-wrapper{
+    width: 80%;
+}
+
+.font-400p {
     font-size: 400%;
 }
 
@@ -616,5 +674,17 @@ body {
         width: fit-content;
         margin: auto;
         font-size: 15px;
+    }
+
+    .receipt-container {
+        font-size: 12px;
+    }
+
+    .content-wrapper {
+        width: 100%;
+    }
+
+    .receipt-container div {
+        min-height: 20px;
     }
 }

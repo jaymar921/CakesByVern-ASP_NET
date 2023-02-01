@@ -1,8 +1,5 @@
 ﻿using CakesByVern_Data.Entity;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Globalization;
-using System.Reflection.Metadata.Ecma335;
 
 namespace CakesByVern_Data.Database
 {
@@ -18,7 +15,17 @@ namespace CakesByVern_Data.Database
 
         public void AddOrder(Order order)
         {
-            throw new NotImplementedException();
+            string sqlFormattedDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
+            string query = $"INSERT INTO orders (`user_id`,`product_id`,`orderdate`,`info`) values ({order.Buyer.Id}, {order.Product.Id}, '{sqlFormattedDate}', '{order.Information}')";
+
+            try
+            {
+                _connector.ExecuteQuery(query);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Error Adding Order --> Err msg: {e.Message}");
+            }
         }
 
         public int AddPost(Post post)
@@ -71,7 +78,17 @@ namespace CakesByVern_Data.Database
 
         public bool DeleteOrder(int id)
         {
-            throw new NotImplementedException();
+            string query = $"DELETE FROM orders WHERE id = {id}";
+
+            try
+            {
+                _connector.ExecuteQuery(query);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public bool DeletePost(int id)
@@ -106,12 +123,37 @@ namespace CakesByVern_Data.Database
 
         public bool DeleteUser(int id)
         {
-            throw new NotImplementedException();
+            string query = $"DELETE FROM user WHERE id = {id}";
+
+            try
+            {
+                _connector.ExecuteQuery(query);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         public IEnumerable<Order> GetAllOrders()
         {
-            throw new NotImplementedException();
+            string query = $"SELECT * FROM orders";
+            List<Order> orders = new List<Order>();
+
+            using (var reader = _connector.ExecuteQueryReturn(query))
+            {
+
+                while (reader.Read())
+                {
+                    string? date = Convert.ToString(reader[3]);
+                    var dt = DateTime.Parse(date != null ? date : "");
+                    var order = new Order((int)reader[0], GetUserById((int)reader[1]), GetProduct((int)reader[2]), dt, (string)reader[4]);
+                    orders.Add(order);
+                }
+
+            }
+            return orders;
         }
 
         public IEnumerable<Post> GetAllPosts()
@@ -169,7 +211,18 @@ namespace CakesByVern_Data.Database
 
         public Order GetOrder(int id)
         {
-            throw new NotImplementedException();
+            string query = $"SELECT * FROM orders where id={id}";
+            using (var reader = _connector.ExecuteQueryReturn(query))
+            {
+                if (reader.Read())
+                {
+                    string? date = Convert.ToString(reader[3]);
+                    var dt = DateTime.Parse(date != null ? date : "");
+                    var order = new Order((int)reader[0], GetUserById((int)reader[1]), GetProduct((int)reader[2]), dt, (string)reader[4]);
+                    reader.Close(); return order;
+                }
+            }
+            return Order.Empty();
         }
 
         public Post GetPost(int id)
@@ -233,18 +286,58 @@ namespace CakesByVern_Data.Database
             return null;
         }
 
+        public User? GetUserByEmail(string email)
+        {
+            string query = $"SELECT * FROM user where email='{email}'";
+            using (var reader = _connector.ExecuteQueryReturn(query))
+            {
+                if (reader.Read())
+                {
+                    string? date = Convert.ToString(reader[2]);
+                    var dt = DateTime.Parse(date != null ? date : "");
+                    User user = new User((int)reader[0], (string)reader[1], DateOnly.FromDateTime(dt), (string)reader[3], (string)reader[4], new Security.Credential((string)reader[5], (string)reader[6]));
+                    reader.Close();
+                    return user;
+                }
+            }
+            return null;
+        }
+
+        public User GetUserById(int id)
+        {
+            string query = $"SELECT * FROM user where id='{id}'";
+            using (var reader = _connector.ExecuteQueryReturn(query))
+            {
+                if (reader.Read())
+                {
+                    string? date = Convert.ToString(reader[2]);
+                    var dt = DateTime.Parse(date != null ? date : "");
+                    User user = new User((int)reader[0], (string)reader[1], DateOnly.FromDateTime(dt), (string)reader[3], (string)reader[4], new Security.Credential((string)reader[5], (string)reader[6]));
+                    reader.Close();
+                    return user;
+                }
+            }
+            return User.Empty();
+        }
+
         public bool RegisterUser(User user)
         {
             string sqlFormattedDate = DateTime.Parse(user.Birthdate.ToString()).ToString("yyyy-MM-dd");
             string query = $"INSERT INTO user (`fullname`,`birthdate`,`email`,`role`,`username`,`password`) values ('{user.FullName}', '{sqlFormattedDate}', '{user.Email}', '{user.Role}', '{user.Credential.UserName}', '{user.Credential.Password}')";
 
+            User? existing = GetUserByEmail(user.Email);
+            if (existing != null)
+            {
+                query = $"UPDATE user SET fullname='{user.FullName}', birthdate='{sqlFormattedDate}', role='{user.Role}', username='{user.Credential.UserName}', password='{user.Credential.Password}' WHERE email='{user.Email}'";
+            }
+
             try
             {
                 _connector.ExecuteQuery(query);
                 return true;
-            }catch
+            }catch(Exception ex) 
             {
-                Console.WriteLine("Error Registering new User --> Err msg: ");
+                Console.WriteLine("Error Registering new User --> Err msg: "+ex.Message);
                 return false;
             }
         }

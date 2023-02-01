@@ -9,6 +9,7 @@ namespace CakesByVern_Data.Database
         bool RegisterUser(User user);
         User? GetUser(string username, string password);
         User? GetUser(string username);
+        User? GetUserByEmail(string email);
         IEnumerable<User> GetAllUsers();
         bool UpdateUser(User user);
         bool DeleteUser(int id);

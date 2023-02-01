@@ -1,6 +1,7 @@
 ﻿@model PlaceOrderModel
 @{
     ViewData["Title"] = "Order";
+
 }
 
 <div class="background-1"></div>
@@ -10,4 +11,98 @@
     <br /><br /><br />
     <h1 class="center PrincessSofia font-400p">Cakes by Vern</h1>
     <h3 class="center PrincessSofia">Your order has been placed</h3>
+    <div class="content-wrapper margin-auto">
+        <form method="post" asp-controller="OrderRequest" asp-action="SaveOrderRequest">
+            <div class="receipt-container">
+                <br />
+                <h1>Order Details</h1>
+                <div>
+                    <input asp-for=ProductId value=@Model.ProductId hidden>
+                    <div><p>Customer:</p></div>
+                    <div><p>@Model.FullName</p></div>
+                    <input asp-for=FullName value=@Model.FullName hidden>
+                </div>
+                <div>
+                    <div><p>Contact #:</p></div>
+                    <div><p>@Model.ContactNumber</p></div>
+                    <input asp-for=ContactNumber value=@Model.ContactNumber hidden>
+                </div>
+                <div>
+                    <div><p>Email: </p></div>
+                    <div><p>@Model.Email</p></div>
+                    <input asp-for=Email value=@Model.Email hidden>
+                </div>
+                <div>
+                    <div><p>Delivery Address:</p></div>
+                    <div><p>@Model.DeliveryAddress</p></div>
+                    <input asp-for=DeliveryAddress value=@Model.DeliveryAddress hidden>
+                </div>
+                <div>
+                    <div><p>Product:</p></div>
+                    <div><p>@Model.ProductName</p></div>
+                    <input asp-for=ProductName value=@Model.ProductName hidden>
+                </div>
+                <div>
+                    <div><p>Additional Information</p></div>
+                    <div><p>@Model.AdditionalInformation</p></div>
+                    <input asp-for=AdditionalInformation value=@Model.AdditionalInformation hidden>
+                </div>
+                <div>
+                    <div><p>Amount:</p></div>
+                    <div><p><i class="fa-solid fa-peso-sign"> @Model.ProductPrice</i></p></div>
+                    <input asp-for=ProductPrice value=@Model.ProductPrice hidden>
+                </div>
+                <div>
+                    <div class="center-content"><p class="bold-text">Mode of Payment</p></div>
+                </div>
+                <div>
+                    <div class="center-content">
+                    <select asp-for="ModeOfPayment">
+                        <option value="COD">Cash on Delivery</option>
+                        <option value="GCASH">GCash</option>
+                    </select>
+                    </div>
+                </div>
+                <div>
+                    <div class="center-content"><p class="bold-text">Type of Delivery</p></div>
+                </div>
+                <div>
+                    <div class="center-content">
+                        <select asp-for="TypeOfDelivery">
+                            <option value="PICKUP/MEETUP">Pickup/Meetup</option>
+                            <option value="HOME_DELIVERY">Deliver to Address</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <div class="center-content"><p class="bold-text">Delivery Date</p></div>
+                </div>
+                <div>
+                    <div class="center-content"><label>Expected Delivery Date: <input asp-for=DeliveryDate type="date" id="setTodaysDate" /></label></div>
+                </div>
+                <div>
+                    <div class="center-content"><label title="Click if all information above are correct"><input type="checkbox" id="form-verification">All information are correct</label></div>
+                </div>
+                <div>
+                    <div><button type="submit" id="submit_order_btn" disabled>Submit Order</button></div>
+                </div>
+            </div>
+        </form>
+    </div>
 </section>
+
+
+<script>
+    'use strict';
+    window.onload = function () {
+        let today = new Date().toISOString().split('T')[0];
+        document.getElementById("setTodaysDate").setAttribute('min', today);
+        document.getElementById("setTodaysDate").value = today;
+    }
+
+    document.getElementById('form-verification').addEventListener('change', e => {
+        if (e.target.checked)
+            document.getElementById('submit_order_btn').disabled = false;
+        else document.getElementById('submit_order_btn').disabled = true;
+    });
+</script>
