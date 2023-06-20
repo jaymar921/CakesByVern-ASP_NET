@@ -1,5 +1,7 @@
+using CakesByVern_ASP_NET_WEB.Data;
 using CakesByVern_Data.Database;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +11,10 @@ builder.Logging.AddConsole();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// add the db context
+builder.Services.AddDbContext<DatabaseContext>(options => options.UseSqlite("Data Source=CakesByVernSqLiteDB"));
 // responsible for database
-builder.Services.AddScoped<IDataRepository, DataRepository>();
+builder.Services.AddScoped<IDataRepository, SqLiteDataRepository>();
 
 // responsible for adding authentication
 builder.Services.AddAuthentication(

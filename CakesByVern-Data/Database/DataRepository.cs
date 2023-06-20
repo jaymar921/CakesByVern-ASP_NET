@@ -148,7 +148,7 @@ namespace CakesByVern_Data.Database
                 {
                     string? date = Convert.ToString(reader[3]);
                     var dt = DateTime.Parse(date != null ? date : "");
-                    var order = new Order((int)reader[0], GetUserById((int)reader[1]), GetProduct((int)reader[2]), dt, (string)reader[4]);
+                    var order = new Order(GetUserById((int)reader[1]), GetProduct((int)reader[2]), dt, (string)reader[4]);
                     orders.Add(order);
                 }
 
@@ -218,7 +218,7 @@ namespace CakesByVern_Data.Database
                 {
                     string? date = Convert.ToString(reader[3]);
                     var dt = DateTime.Parse(date != null ? date : "");
-                    var order = new Order((int)reader[0], GetUserById((int)reader[1]), GetProduct((int)reader[2]), dt, (string)reader[4]);
+                    var order = new Order(GetUserById((int)reader[1]), GetProduct((int)reader[2]), dt, (string)reader[4]);
                     reader.Close(); return order;
                 }
             }

@@ -1,8 +1,9 @@
 ﻿@model PostModel
 
 @{
+    var claimsIdentity = User.Identity as System.Security.Claims.ClaimsIdentity;
     string? nm = User?.Identity?.Name;
-    string name = nm != null ? nm : string.Empty;
+    string name = claimsIdentity?.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value ?? "-";
 }
 
 @{

@@ -65,36 +65,17 @@ namespace CakesByVern_ASP_NET_WEB.Controllers
 
             User? user = _repository.GetUserByEmail(orderRequest.Email);
 
-            if(user == null)
-            {
-                _repository.RegisterUser(new User(
-                    -1,
-                    orderRequest.FullName,
-                    new DateOnly(),
-                    orderRequest.Email,
-                    "CLIENT",
-                    new CakesByVern_Data.Security.Credential(
-                        (orderRequest.Email + "User").MD5Hash(),
-                        (orderRequest.Email + "Password").MD5Hash()
-                        )));
-                user = _repository.GetUser((orderRequest.Email + "User").MD5Hash());
-            }
-            if(user != null)
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.Append(orderRequest.ContactNumber +"~");
-                sb.Append(orderRequest.DeliveryAddress + "~");
-                sb.Append(orderRequest.AdditionalInformation + "~");
-                sb.Append(orderRequest.ModeOfPayment + "~");
-                sb.Append(orderRequest.TypeOfDelivery + "~");
-                sb.Append(orderRequest.ProductPrice + "~");
-                sb.Append(orderRequest.DeliveryDate);
-                Order order = Order.Create(-1, user, _repository.GetProduct(orderRequest.ProductId), DateTime.Now, sb.ToString());
 
-                _repository.AddOrder(order);
-            }
-            
-            
+            OrderUtility.PlaceOrder(_repository, orderRequest, user);
+
+            var mailData = new MailData
+            {
+                Subject = "Order Request",
+                Body = OrderUtility.HTMLBodyParser(orderRequest),
+                To = user?.Email ?? ""
+            };
+
+            Console.WriteLine(mailData.GetHTMLMailBody());
             return Redirect("/");
         }
     }

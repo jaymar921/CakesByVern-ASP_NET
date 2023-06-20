@@ -1,4 +1,5 @@
 ﻿using CakesByVern_Data.Security;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Net;
 
@@ -6,6 +7,7 @@ namespace CakesByVern_Data.Entity
 {
     public class User
     {
+        [Key]
         public int Id { get; set; }  
         public string FullName { get; set; } = String.Empty;
         public DateOnly Birthdate { get; private set; }
@@ -24,6 +26,16 @@ namespace CakesByVern_Data.Entity
         }
         public static User Create(int id, string fullname, DateOnly birthdate, string email, string role, Credential credential) {
             return new User(id, fullname, birthdate, email, role, credential);
+        }
+
+        public User()
+        {
+            Id = -1;
+            FullName = "";
+            Birthdate = new DateOnly();
+            Email = "";
+            Credential = new Credential("", "");
+            Role = "";
         }
 
         public static User Empty()

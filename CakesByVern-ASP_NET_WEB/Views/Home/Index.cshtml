@@ -10,7 +10,7 @@
         if (claimsIdentity.Claims != null)
             role = claimsIdentity.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value;
     }
-    var roleOfUser = role != null ? role : "User";
+    var roleOfUser = role != null ? role : "CLIENT";
 }
 <section class="info_extra_1"></section>
 <section class="banner">

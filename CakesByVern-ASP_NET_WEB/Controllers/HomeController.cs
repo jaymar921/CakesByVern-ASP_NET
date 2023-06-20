@@ -52,6 +52,12 @@ namespace CakesByVern_ASP_NET_WEB.Controllers
                 return View();
             }
 
+            Console.WriteLine(postModel.Title);
+            Console.WriteLine(postModel.Description);
+            Console.WriteLine(postModel.Author);
+            Console.WriteLine(postModel.imageFile);
+            Console.WriteLine();
+
             // save the post into the database
             int id = _dataRepository.AddPost(new CakesByVern_Data.Entity.Post { Title = postModel.Title, Description = postModel.Description, Author = postModel.Author });
 
