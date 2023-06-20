@@ -8,12 +8,13 @@ namespace CakesByVern_ASP_NET_WEB.Utilities
 {
     public class OrderUtility
     {
-        public static void PlaceOrder(IDataRepository _repository,PlaceOrderModel orderRequest, User? user)
+        public static void PlaceOrder(IDataRepository _repository,PlaceOrderModel orderRequest, User? user, IConfiguration _configuration)
         {
+
             if (user == null)
             {
-                _repository.RegisterUser(new User(
-                    -1,
+                user = new User(
+                    _repository.GetAllUsers().Count() + 1,
                     orderRequest.FullName,
                     new DateOnly(),
                     orderRequest.Email,
@@ -21,24 +22,39 @@ namespace CakesByVern_ASP_NET_WEB.Utilities
                     new CakesByVern_Data.Security.Credential(
                         (orderRequest.Email + "User").MD5Hash(),
                         (orderRequest.Email + "Password").MD5Hash()
-                        )));
-                user = _repository.GetUser((orderRequest.Email + "User").MD5Hash());
+                        ));
+                _repository.RegisterUser(user);
             }
-            if (user != null)
+            
+            StringBuilder sb = new StringBuilder();
+            sb.Append(orderRequest.ContactNumber + "~");
+            sb.Append(orderRequest.DeliveryAddress + "~");
+            sb.Append(orderRequest.AdditionalInformation + "~");
+            sb.Append(orderRequest.ModeOfPayment + "~");
+            sb.Append(orderRequest.TypeOfDelivery + "~");
+            sb.Append(orderRequest.ProductPrice + "~");
+            sb.Append(orderRequest.DeliveryDate);
+
+            Order order = Order.Create(user, _repository.GetProduct(orderRequest.ProductId), DateTime.Now, sb.ToString());
+
+            _repository.AddOrder(order);
+
+            var mailData = new MailData
             {
-                StringBuilder sb = new StringBuilder();
-                sb.Append(orderRequest.ContactNumber + "~");
-                sb.Append(orderRequest.DeliveryAddress + "~");
-                sb.Append(orderRequest.AdditionalInformation + "~");
-                sb.Append(orderRequest.ModeOfPayment + "~");
-                sb.Append(orderRequest.TypeOfDelivery + "~");
-                sb.Append(orderRequest.ProductPrice + "~");
-                sb.Append(orderRequest.DeliveryDate);
+                Subject = "Order Request",
+                Body = OrderUtility.HTMLBodyParser(orderRequest),
+                To = user.Email
+            };
+            var admins = _repository.GetAllUsers().Where(u => u.Role == "ADMIN");
+            List<string> adminEmails = new List<string>();
 
-                Order order = Order.Create(user, _repository.GetProduct(orderRequest.ProductId), DateTime.Now, sb.ToString());
-
-                _repository.AddOrder(order);
+            foreach (var admin in admins)
+            {
+                adminEmails.Add(admin.Email);
             }
+
+            new EmailProviderAPI(_configuration).SendEmail(mailData, adminEmails);
+
 
         }
 

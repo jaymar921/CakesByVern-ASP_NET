@@ -14,11 +14,13 @@ namespace CakesByVern_ASP_NET_WEB.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IDataRepository _repository;
+        private readonly IConfiguration _configuration;
 
-        public OrderRequestController(IDataRepository repository, ILogger<HomeController> logger)
+        public OrderRequestController(IDataRepository repository, ILogger<HomeController> logger, IConfiguration configuration)
         {
             _repository = repository;
             _logger = logger;
+            _configuration = configuration;
         }
 
         public IActionResult Index(string id, string user)
@@ -65,17 +67,9 @@ namespace CakesByVern_ASP_NET_WEB.Controllers
 
             User? user = _repository.GetUserByEmail(orderRequest.Email);
 
+            OrderUtility.PlaceOrder(_repository, orderRequest, user, _configuration);
 
-            OrderUtility.PlaceOrder(_repository, orderRequest, user);
-
-            var mailData = new MailData
-            {
-                Subject = "Order Request",
-                Body = OrderUtility.HTMLBodyParser(orderRequest),
-                To = user?.Email ?? ""
-            };
-
-            Console.WriteLine(mailData.GetHTMLMailBody());
+            
             return Redirect("/");
         }
     }

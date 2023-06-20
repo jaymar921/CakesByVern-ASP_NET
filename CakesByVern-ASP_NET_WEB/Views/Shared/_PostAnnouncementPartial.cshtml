@@ -16,10 +16,10 @@
                         <h3>Share your ideas</h3>
                         <input asp-for="Author" value="@name" hidden>
                         <div class="form-group">
-                            <input asp-for="Title" type="text" maxlength="20" placeholder="Short title" required>
+                            <input asp-for="Title" type="text" maxlength="30" placeholder="Short title" required>
                         </div>
                         <div class="form-group">
-                            <textarea asp-for="Description" maxlength="50" placeholder="Write a short description..." required></textarea>
+                            <textarea asp-for="Description" maxlength="350" placeholder="Write a short description..." required></textarea>
                         </div>
                         <div class="form-group">
                             <input style="display:none" name="imageFile" asp-for="imageFile" type="file" accept="image/*">

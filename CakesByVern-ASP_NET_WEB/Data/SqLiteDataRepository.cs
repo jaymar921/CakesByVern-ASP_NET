@@ -12,18 +12,17 @@ namespace CakesByVern_ASP_NET_WEB.Data
         {
             _context = context;
 
+            _context.Database.EnsureCreated();
+
             IConfigurationSection conf = configuration.GetSection("AdminEmails");
             conf.AsEnumerable().ToList().ForEach(x => { 
                 var user = _context.Users.FirstOrDefault(u => u.Email == x.Value);
 
-                if (user != null)
+                if (user != null && user.Role != "ADMIN")
                 {
-                    if(user.Role != "ADMIN")
-                    {
-                        user.Role = "ADMIN";
-                        _context.Users.Update(user);
-                        _context.SaveChanges();
-                    }
+                    user.Role = "ADMIN";
+                    _context.Users.Update(user);
+                    _context.SaveChanges();
                 }
             });
         }

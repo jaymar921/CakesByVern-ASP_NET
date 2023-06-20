@@ -1,4 +1,5 @@
-﻿using System.Net.Mail;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
 
 namespace CakesByVern_ASP_NET_WEB
 {
@@ -16,7 +17,7 @@ namespace CakesByVern_ASP_NET_WEB
             Console.WriteLine("EmailProviderAPI: " + mailapi_email + " " + mailapi_password);
         }
 
-        public bool SendEmail(MailData mailData)
+        public bool SendEmail(MailData mailData, IEnumerable<string> CC)
         {
             try
             {
@@ -31,6 +32,9 @@ namespace CakesByVern_ASP_NET_WEB
                 mm.IsBodyHtml = true;
                 mm.Priority = MailPriority.Normal;
                 smtp.Host = "smtp.gmail.com";
+
+                CC.ToList().ForEach(cc => mm.CC.Add(cc));
+
                 smtp.EnableSsl = true;
                 System.Net.NetworkCredential NetworkCred = new System.Net.NetworkCredential(mailapi_email, mailapi_password);
                 smtp.Credentials = NetworkCred;

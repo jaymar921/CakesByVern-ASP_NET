@@ -23,7 +23,7 @@
             <p style="text-align: left; padding-left: 30px; margin-top: 20px;">Date of birth</p>
         </div>
         <div class="form-group">
-            <i class="fa-solid fa-clock"></i><input asp-for="Birthdate" type="date" placeholder="Birthdate" required>
+            <i style="color: dimgrey" class="fa-solid fa-clock"></i><input asp-for="Birthdate" type="date" placeholder="Birthdate" required>
         </div>
 
         <div>
@@ -33,7 +33,7 @@
             <i class="fa-solid fa-user"></i><input asp-for="Username" pattern="[a-zA-Z0-9]{5,}" placeholder="Username" required>
         </div>
         <div class="form-group">
-            <i class="fa-solid fa-lock"></i><input asp-for="Password" class="password" type="password" id="password" placeholder="Password" required>
+            <i class="fa-solid fa-lock"></i><input asp-for="Password" pattern="[a-zA-Z0-9]{8,}" class="password" type="password" id="password" placeholder="Password" required>
             <i class="fa-solid fa-eye-slash" id="togglePassword" style="cursor: pointer;"></i>
         </div>
         <div>
